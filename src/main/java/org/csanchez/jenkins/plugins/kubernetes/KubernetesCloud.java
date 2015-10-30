@@ -21,11 +21,7 @@ import hudson.slaves.Cloud;
 import hudson.slaves.NodeProvisioner;
 import hudson.util.FormValidation;
 import hudson.util.ListBoxModel;
-import io.fabric8.kubernetes.api.model.ContainerStatus;
-import io.fabric8.kubernetes.api.model.EnvVar;
-import io.fabric8.kubernetes.api.model.Pod;
-import io.fabric8.kubernetes.api.model.PodBuilder;
-import io.fabric8.kubernetes.api.model.PodList;
+import io.fabric8.kubernetes.api.model.*;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import jenkins.model.Jenkins;
 import jenkins.model.JenkinsLocationConfiguration;
@@ -230,12 +226,30 @@ public class KubernetesCloud extends Cloud {
                         .withCommand(parseDockerCommand(template.getCommand()))
                         .addToArgs(slave.getComputer().getJnlpMac())
                         .addToArgs(slave.getComputer().getName())
+                        .withVolumeMounts()
+                            .addNewVolumeMount()
+                                .withName("dockersock")
+                                .withMountPath("/var/run/docker.sock")
+                                .endVolumeMount()
+                            .addNewVolumeMount()
+                                .withName("dockerbin")
+                                .withMountPath("/bin/docker")
+                                .endVolumeMount()
                 .endContainer()
                 .withRestartPolicy("Never")
                 .withImagePullSecrets()
                     .addNewImagePullSecret()
                         .withName(template.getImagePullSecret())
                     .endImagePullSecret()
+                .withVolumes()
+                    .addNewVolume()
+                        .withName("dockersock")
+                        .withHostPath(new HostPathVolumeSource("/var/run/docker.sock"))
+                        .endVolume()
+                    .addNewVolume()
+                        .withName("dockerbin")
+                        .withHostPath(new HostPathVolumeSource("/usr/bin/docker"))
+                        .endVolume()
                 .endSpec()
                 .build();
     }
