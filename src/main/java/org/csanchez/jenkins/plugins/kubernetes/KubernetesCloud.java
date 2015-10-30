@@ -232,6 +232,10 @@ public class KubernetesCloud extends Cloud {
                         .addToArgs(slave.getComputer().getName())
                 .endContainer()
                 .withRestartPolicy("Never")
+                .withImagePullSecrets()
+                    .addNewImagePullSecret()
+                        .withName(template.getImagePullSecret())
+                    .endImagePullSecret()
                 .endSpec()
                 .build();
     }

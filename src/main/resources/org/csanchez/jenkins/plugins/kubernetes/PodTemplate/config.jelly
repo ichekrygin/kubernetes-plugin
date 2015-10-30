@@ -41,6 +41,10 @@ THE SOFTWARE.
     <f:textbox/>
   </f:entry>
 
+  <f:entry field="imagePullSecret" title="${%Image Pull Secret}">
+  	<f:textbox/>
+  </f:entry>
+
   <f:entry field="remoteFs" title="${%Jenkins slave root directory}">
     <f:textbox default="/home/jenkins"/>
   </f:entry>

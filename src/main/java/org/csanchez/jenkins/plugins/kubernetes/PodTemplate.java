@@ -23,6 +23,8 @@ public class PodTemplate extends AbstractDescribableImpl<PodTemplate> {
 
     private final String image;
 
+    private String imagePullSecret;
+
     private boolean privileged;
 
     private String command;
@@ -53,6 +55,11 @@ public class PodTemplate extends AbstractDescribableImpl<PodTemplate> {
     public String getImage() {
         return image;
     }
+
+    @DataBoundSetter
+    public void setImagePullSecret(String secret) { imagePullSecret = secret; }
+
+    public String getImagePullSecret(){ return imagePullSecret; }
 
     @DataBoundSetter
     public void setCommand(String command) {
