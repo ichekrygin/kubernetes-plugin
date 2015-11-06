@@ -46,7 +46,7 @@ public class KubernetesSlave extends AbstractCloudSlave {
         super(Long.toHexString(System.nanoTime()),
                 nodeDescription,
                 template.getRemoteFs(),
-                1,
+                template.getNumExecutors(),
                 Node.Mode.NORMAL,
                 label == null ? null : label.toString(),
                 new JNLPLauncher(),

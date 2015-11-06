@@ -37,6 +37,8 @@ public class PodTemplate extends AbstractDescribableImpl<PodTemplate> {
 
     private String label;
 
+    private int numExecutors;
+
     @DataBoundConstructor
     public PodTemplate(String image) {
         Preconditions.checkArgument(!StringUtils.isBlank(image));
@@ -115,6 +117,27 @@ public class PodTemplate extends AbstractDescribableImpl<PodTemplate> {
         } else {
             return String.valueOf(instanceCap);
         }
+    }
+
+    public void setNumExecutors(int numExecutors) {
+        this.numExecutors = numExecutors;
+    }
+
+    public int getNumExecutors() {
+        return numExecutors;
+    }
+
+    @DataBoundSetter
+    public void setNumExecutorsStr(String numExecutorsStr) {
+        if (StringUtils.isEmpty(numExecutorsStr)){
+            setNumExecutors(1);
+        } else {
+            setNumExecutors(Integer.parseInt(numExecutorsStr));
+        }
+    }
+
+    public String getNumExecutorsStr() {
+        return String.valueOf(instanceCap);
     }
 
     public Set<LabelAtom> getLabelSet() {
