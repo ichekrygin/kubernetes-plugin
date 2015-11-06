@@ -137,6 +137,27 @@ public class PodTemplate extends AbstractDescribableImpl<PodTemplate> {
     }
 
     public String getNumExecutorsStr() {
+        return String.valueOf(numExecutors);
+    }
+
+    public void setNumExecutors(int numExecutors) {
+        this.numExecutors = numExecutors;
+    }
+
+    public int getNumExecutors() {
+        return numExecutors;
+    }
+
+    @DataBoundSetter
+    public void setNumExecutorsStr(String numExecutorsStr) {
+        if (StringUtils.isEmpty(numExecutorsStr)){
+            setNumExecutors(1);
+        } else {
+            setNumExecutors(Integer.parseInt(numExecutorsStr));
+        }
+    }
+
+    public String getNumExecutorsStr() {
         return String.valueOf(instanceCap);
     }
 
